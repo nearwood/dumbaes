@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  const [cipherText, setCipherText] = useState("6k3teSVVjbc6AxRpghGZ6Zxq2igsO6ZTaw+7tC9y7pSWObcZBydHsuuykMaOtr/xKSD8uA7lVkurGPkv7vK469AOkWkJBS2IuiMU8ploCziWvffkhyiSS2MRUEp9aRlH/9gdGuR5tAfMZEz4zHjqkt0eAfDe6y8yozwYWxIHSMzYHzFe37e5FaA/XXYXBQEz5/i9SKSNJsms002OrJCljVcHl4jCD7m1y3o7hBuaonGKpc9iY3+s3DIdqRJ8nP2Fa5cJx/IkDoiVvsyAVkq/Aue3pd6Fub4uzB5nambt0JVYAIO+GORdRwiLiuDIA4EvrKLZYv6z8CKkHdqjfC8KJmTRFwa+kwm2pLuUwaLIGSI=");
+  const [input, setInput] = useState("6k3teSVVjbc6AxRpghGZ6Zxq2igsO6ZTaw+7tC9y7pSWObcZBydHsuuykMaOtr/xKSD8uA7lVkurGPkv7vK469AOkWkJBS2IuiMU8ploCziWvffkhyiSS2MRUEp9aRlH/9gdGuR5tAfMZEz4zHjqkt0eAfDe6y8yozwYWxIHSMzYHzFe37e5FaA/XXYXBQEz5/i9SKSNJsms002OrJCljVcHl4jCD7m1y3o7hBuaonGKpc9iY3+s3DIdqRJ8nP2Fa5cJx/IkDoiVvsyAVkq/Aue3pd6Fub4uzB5nambt0JVYAIO+GORdRwiLiuDIA4EvrKLZYv6z8CKkHdqjfC8KJmTRFwa+kwm2pLuUwaLIGSI=");
   const [key, setKey] = useState("");
 
   return (
     <div className="App">
-      <textarea rows="8" cols="80" placeholder="ciphertext" value={cipherText} onChange={(e) => setCipherText(e.target.value)}/>
+      <textarea rows="8" cols="80" placeholder="input" value={input} onChange={(e) => setInput(e.target.value)}/>
       <input type="text" size="72" placeholder="key" value={key} onChange={(e) => setKey(e.target.value)}/>
-      <div id="buttons"><button onClick={() => encrypt(key)}>Encrypt</button> <button onClick={decrypt}>Decrypt</button></div>
+      <div id="buttons"><button onClick={() => encrypt(key, input)}>Encrypt</button> <button onClick={() => decrypt(key, input)}>Decrypt</button></div>
       <div id="errors"></div>
       <textarea rows="8" cols="80" placeholder="output"/>
       <pre>{blah()}</pre>
@@ -17,14 +17,20 @@ function App() {
   );
 }
 
-function encrypt(keyString) {
+function encrypt(keyString, plaintext) {
   initCrypto(keyString, (key) => {
-    console.log(key);
+    encryptMessage(key, plaintext, (ciphertext) => {
+      console.log(ciphertext);
+    });
   });
 }
 
-function decrypt() {
-
+function decrypt(keyString, ciphertext) {
+  initCrypto(keyString, (key) => {
+    decryptMessage(key, ciphertext, (plaintext) => {
+      console.log(plaintext);
+    });
+  });
 }
 
 function blah() {
@@ -52,25 +58,40 @@ function blah() {
     //r += decryptMessage(code, Uint8Array.from(atob(""), c => c.charCodeAt(0)));
   });
 
-  async function decryptMessage(key, ciphertext) {
-    return await window.crypto.subtle.decrypt(
-      {
-        name: "AES-CBC",
-        iv: "\x31\x32\x33\x34\x35\x36\x37\x38\x62\x30\x7a\x32\x33\x34\x35\x6e"
-      },
-      key,
-      ciphertext
-    );
-  }
-
   return r;
+}
+
+function encryptMessage(key, plaintext, next) {
+  window.crypto.subtle.decrypt(
+    {
+      name: "AES-CBC",
+      iv: stringToArrayBuffer('\x31\x32\x33\x34\x35\x36\x37\x38\x62\x30\x7a\x32\x33\x34\x35\x6e')
+    },
+    key,
+    stringToArrayBuffer(plaintext)
+  ).then((ciphertext) => {
+    next(ciphertext);
+  }).catch(err => console.error(err.name));
+}
+
+function decryptMessage(key, ciphertext, next) {
+  window.crypto.subtle.decrypt(
+    {
+      name: "AES-CBC",
+      iv: stringToArrayBuffer('\x31\x32\x33\x34\x35\x36\x37\x38\x62\x30\x7a\x32\x33\x34\x35\x6e')
+    },
+    key,
+    base64ToArrayBuffer(ciphertext)
+  ).then((plaintext) => {
+    next(plaintext);
+  }).catch(err => console.error(err.name));
 }
 
 function initCrypto(rawKey, next) {
   window.crypto.subtle.importKey("raw", stringToArrayBuffer(rawKey.padStart(32, '\0')), { name: "AES-CBC", length: 256 }, true, ["encrypt", "decrypt"])
     .then((key) => {
       next(key);
-    });
+    }).catch(err => console.error(err.name));
 }
 
 function stringToArrayBuffer(s) {
