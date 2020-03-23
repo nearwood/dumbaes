@@ -1,5 +1,11 @@
 .App {
-  text-align: center;
+  width: 768px;
+}
+
+#buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
 .App-logo {
