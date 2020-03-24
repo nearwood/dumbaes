@@ -1,5 +1,18 @@
+
+html, body, #root {
+  height: 100%;
+}
+
 .App {
   width: 768px;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+}
+
+textarea {
+  flex: 2 1 auto;
 }
 
 #buttons {
@@ -8,6 +21,19 @@
   justify-content: space-between;
 }
 
+input#key {
+  flex: 1 1 auto;
+}
+
+button {
+  color: #f15926
+}
+
 #errors {
   color: rgb(100, 0, 0);
+}
+
+footer {
+  text-align: right;
+  color: #a48463;
 }
