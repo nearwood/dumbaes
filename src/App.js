@@ -73,7 +73,7 @@ function encryptMessage(key, plaintext, next) {
     key,
     stringToArrayBuffer(plaintext)
   ).then((ciphertext) => {
-    next(ciphertext);
+    next(arrayBufferToBase64(ciphertext));
   }).catch(err => console.error(err.name, err));
 }
 
@@ -119,6 +119,10 @@ function arrayBufferToString(buffer) {
   }
 
   return s;
+}
+
+function arrayBufferToBase64(buffer) {
+  return window.btoa(arrayBufferToString(buffer));
 }
 
 export default App;
