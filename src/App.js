@@ -3,37 +3,45 @@ import './App.css';
 
 const iv = "\x31\x32\x33\x34\x35\x36\x37\x38\x62\x30\x7a\x32\x33\x34\x35\x6e";
 
-function App() {
+export default function App() {
   const [input, setInput] = useState("6k3teSVVjbc6AxRpghGZ6Zxq2igsO6ZTaw+7tC9y7pSWObcZBydHsuuykMaOtr/xKSD8uA7lVkurGPkv7vK469AOkWkJBS2IuiMU8ploCziWvffkhyiSS2MRUEp9aRlH/9gdGuR5tAfMZEz4zHjqkt0eAfDe6y8yozwYWxIHSMzYHzFe37e5FaA/XXYXBQEz5/i9SKSNJsms002OrJCljVcHl4jCD7m1y3o7hBuaonGKpc9iY3+s3DIdqRJ8nP2Fa5cJx/IkDoiVvsyAVkq/Aue3pd6Fub4uzB5nambt0JVYAIO+GORdRwiLiuDIA4EvrKLZYv6z8CKkHdqjfC8KJmTRFwa+kwm2pLuUwaLIGSI=");
   const [key, setKey] = useState("");
   const [output, setOutput] = useState("");
+  const [error, setError] = useState(null);
 
   return (
     <div className="App">
       <textarea rows="8" cols="80" placeholder="input" value={input} onChange={(e) => setInput(e.target.value)}/>
       <input type="text" size="72" placeholder="key" maxLength="32" value={key} onChange={(e) => setKey(e.target.value)}/>
-      <div id="buttons"><button onClick={() => encrypt(key, input, setOutput)}>Encrypt</button> <button onClick={() => decrypt(key, input, setOutput)}>Decrypt</button></div>
-      <div id="errors"></div>
+      <div id="buttons"><button onClick={() => encrypt(key, input, setOutput, setError)}>Encrypt</button><div id="errors">{error}</div><button onClick={() => decrypt(key, input, setOutput, setError)}>Decrypt</button></div>
       <textarea rows="8" cols="80" placeholder="output" value={output} readOnly/>
       <pre>{blah()}</pre>
     </div>
   );
 }
 
-function encrypt(keyString, plaintext, setOutput) {
-  initCrypto(keyString, (key) => {
-    encryptMessage(key, plaintext, (ciphertext) => {
-      setOutput(ciphertext);
-    });
-  });
+async function encrypt(keyString, plaintext, setOutput, setError) {
+  try {
+    const key = await initCrypto(keyString);
+    const ciphertext = await encryptMessage(key, plaintext);
+    setError(null);
+    setOutput(ciphertext);
+  } catch (e) {
+    console.error(e);
+    setError("Could not encrypt.");
+  }
 }
 
-function decrypt(keyString, ciphertext, setOutput) {
-  initCrypto(keyString, (key) => {
-    decryptMessage(key, ciphertext, (plaintext) => {
-      setOutput(plaintext);
-    });
-  });
+async function decrypt(keyString, ciphertext, setOutput, setError) {
+  try {
+    const key = await initCrypto(keyString);
+    const plaintext = await decryptMessage(key, ciphertext);
+    setError(null);
+    setOutput(plaintext);
+  } catch (e) {
+    console.error(e);
+    setError("Could not decrypt.");
+  }
 }
 
 function blah() {
@@ -58,43 +66,44 @@ function blah() {
       //code = code.replace(/[1,3,5,7,9]+/g,'');
       r += `${word} (${code.length}): ` + code + "\n";
     //}
-    //r += decryptMessage(code, Uint8Array.from(atob(""), c => c.charCodeAt(0)));
   });
 
   return r;
 }
 
-function encryptMessage(key, plaintext, next) {
-  window.crypto.subtle.decrypt(
+async function encryptMessage(key, plaintext) {
+  return arrayBufferToBase64(await window.crypto.subtle.decrypt(
     {
       name: "AES-CBC",
-      iv: stringToArrayBuffer(iv) //Uint8Array.from(iv) //?
+      iv: stringToArrayBuffer(iv)
     },
     key,
     stringToArrayBuffer(plaintext)
-  ).then((ciphertext) => {
-    next(arrayBufferToBase64(ciphertext));
-  }).catch(err => console.error(err.name, err));
+  ));
 }
 
-function decryptMessage(key, ciphertext, next) {
-  window.crypto.subtle.decrypt(
+async function decryptMessage(key, ciphertext) {
+  return arrayBufferToString(await window.crypto.subtle.decrypt(
     {
       name: "AES-CBC",
       iv: stringToArrayBuffer(iv)
     },
     key,
     base64ToArrayBuffer(ciphertext)
-  ).then((plaintext) => {
-    next(arrayBufferToString(plaintext));
-  }).catch(err => console.error(err.name, err));
+  ));
 }
 
-function initCrypto(rawKey, next) {
-  window.crypto.subtle.importKey("raw", stringToArrayBuffer(rawKey.padEnd(32, '\0')), { name: "AES-CBC", length: 256 }, true, ["encrypt", "decrypt"])
-    .then((key) => {
-      next(key);
-    }).catch(err => console.error(err.name));
+async function initCrypto(rawKey) {
+  return await window.crypto.subtle.importKey(
+    "raw",
+    stringToArrayBuffer(rawKey.padEnd(32, '\0')),
+    {
+      name: "AES-CBC",
+      length: 256
+    },
+    true,
+    ["encrypt", "decrypt"]
+  );
 }
 
 function stringToArrayBuffer(s) {
@@ -124,5 +133,3 @@ function arrayBufferToString(buffer) {
 function arrayBufferToBase64(buffer) {
   return window.btoa(arrayBufferToString(buffer));
 }
-
-export default App;
