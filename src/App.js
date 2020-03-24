@@ -10,8 +10,8 @@ const utf8Encoder = new TextEncoder();
 const utf8Decoder = new TextDecoder();
 
 export default function App() {
-  const [input, setInput] = useState("6k3teSVVjbc6AxRpghGZ6Zxq2igsO6ZTaw+7tC9y7pSWObcZBydHsuuykMaOtr/xKSD8uA7lVkurGPkv7vK469AOkWkJBS2IuiMU8ploCziWvffkhyiSS2MRUEp9aRlH/9gdGuR5tAfMZEz4zHjqkt0eAfDe6y8yozwYWxIHSMzYHzFe37e5FaA/XXYXBQEz5/i9SKSNJsms002OrJCljVcHl4jCD7m1y3o7hBuaonGKpc9iY3+s3DIdqRJ8nP2Fa5cJx/IkDoiVvsyAVkq/Aue3pd6Fub4uzB5nambt0JVYAIO+GORdRwiLiuDIA4EvrKLZYv6z8CKkHdqjfC8KJmTRFwa+kwm2pLuUwaLIGSI=");
-  const [key, setKey] = useState("");
+  const [input, setInput] = useState("YkreP8qCxamCD+tB8OF9nA==");
+  const [key, setKey] = useState("Top Secret");
   const [output, setOutput] = useState("");
   const [error, setError] = useState(null);
 
@@ -115,7 +115,11 @@ async function importKey(rawKey) {
 
 function base64ToArrayBuffer(b64) {
   var byteString = window.atob(b64);
-  return utf8Encoder.encode(byteString);
+  var byteArray = new Uint8Array(byteString.length);
+  for (var i = 0; i < byteString.length; i++) {
+    byteArray[i] = byteString.charCodeAt(i);
+  }
+  return byteArray;
 }
 
 function arrayBufferToBase64(buffer) {
