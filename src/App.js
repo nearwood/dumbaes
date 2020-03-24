@@ -3,6 +3,9 @@ import './App.css';
 
 const iv = "\x31\x32\x33\x34\x35\x36\x37\x38\x62\x30\x7a\x32\x33\x34\x35\x6e";
 
+const utf8Encoder = new TextEncoder();
+const utf8Decoder = new TextDecoder();
+
 export default function App() {
   const [input, setInput] = useState("6k3teSVVjbc6AxRpghGZ6Zxq2igsO6ZTaw+7tC9y7pSWObcZBydHsuuykMaOtr/xKSD8uA7lVkurGPkv7vK469AOkWkJBS2IuiMU8ploCziWvffkhyiSS2MRUEp9aRlH/9gdGuR5tAfMZEz4zHjqkt0eAfDe6y8yozwYWxIHSMzYHzFe37e5FaA/XXYXBQEz5/i9SKSNJsms002OrJCljVcHl4jCD7m1y3o7hBuaonGKpc9iY3+s3DIdqRJ8nP2Fa5cJx/IkDoiVvsyAVkq/Aue3pd6Fub4uzB5nambt0JVYAIO+GORdRwiLiuDIA4EvrKLZYv6z8CKkHdqjfC8KJmTRFwa+kwm2pLuUwaLIGSI=");
   const [key, setKey] = useState("");
@@ -22,7 +25,7 @@ export default function App() {
 
 async function encrypt(keyString, plaintext, setOutput, setError) {
   try {
-    const key = await initCrypto(keyString);
+    const key = await importKey(keyString);
     const ciphertext = await encryptMessage(key, plaintext);
     setError(null);
     setOutput(ciphertext);
@@ -34,7 +37,7 @@ async function encrypt(keyString, plaintext, setOutput, setError) {
 
 async function decrypt(keyString, ciphertext, setOutput, setError) {
   try {
-    const key = await initCrypto(keyString);
+    const key = await importKey(keyString);
     const plaintext = await decryptMessage(key, ciphertext);
     setError(null);
     setOutput(plaintext);
@@ -72,31 +75,31 @@ function blah() {
 }
 
 async function encryptMessage(key, plaintext) {
-  return arrayBufferToBase64(await window.crypto.subtle.decrypt(
+  return arrayBufferToBase64(await window.crypto.subtle.encrypt(
     {
       name: "AES-CBC",
-      iv: stringToArrayBuffer(iv)
+      iv: utf8Encoder.encode(iv)
     },
     key,
-    stringToArrayBuffer(plaintext)
+    utf8Encoder.encode(plaintext)
   ));
 }
 
 async function decryptMessage(key, ciphertext) {
-  return arrayBufferToString(await window.crypto.subtle.decrypt(
+  return utf8Decoder.decode(await window.crypto.subtle.decrypt(
     {
       name: "AES-CBC",
-      iv: stringToArrayBuffer(iv)
+      iv: utf8Encoder.encode(iv)
     },
     key,
     base64ToArrayBuffer(ciphertext)
   ));
 }
 
-async function initCrypto(rawKey) {
+async function importKey(rawKey) {
   return await window.crypto.subtle.importKey(
     "raw",
-    stringToArrayBuffer(rawKey.padEnd(32, '\0')),
+    utf8Encoder.encode(rawKey.padEnd(32, '\0')),
     {
       name: "AES-CBC",
       length: 256
@@ -106,30 +109,17 @@ async function initCrypto(rawKey) {
   );
 }
 
-function stringToArrayBuffer(s) {
-  var byteArray = new Uint8Array(s.length);
-  for (var i = 0; i < s.length; i++) {
-    byteArray[i] = s.charCodeAt(i);
-  }
-
-  return byteArray;
-}
-
 function base64ToArrayBuffer(b64) {
   var byteString = window.atob(b64);
-  return stringToArrayBuffer(byteString);
+  return utf8Encoder.encode(byteString);
 }
 
-function arrayBufferToString(buffer) {
+function arrayBufferToBase64(buffer) {
   let s = '';
   let bytes = new Uint8Array(buffer);
   for (let i = 0; i < bytes.byteLength; ++i) {
     s += String.fromCharCode(bytes[i]);
   }
 
-  return s;
-}
-
-function arrayBufferToBase64(buffer) {
-  return window.btoa(arrayBufferToString(buffer));
+  return window.btoa(s);
 }
