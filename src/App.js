@@ -22,7 +22,7 @@ export default function App() {
       <div id="errors">{error}</div>
       <textarea rows="8" cols="80" placeholder="output" value={output} readOnly/>
       {/*<pre>{blah()}</pre>*/}
-      <footer><span title="version">{VERSION.substring(0, 7)}</span></footer>
+      <footer><a rel="author" href="https://twitter.com/nearwood">@nearwood</a> <a href="https://github.com/nearwood/dumbaes">GitHub</a> <span title="version">{VERSION.substring(0, 7)}</span></footer>
     </div>
   );
 }
