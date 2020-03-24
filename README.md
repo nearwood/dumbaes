@@ -2,6 +2,8 @@
 
 ### Simple but insecure AES implementation.
 
+Try it now: https://nearwood.dev/dumbaes/
+
 Implementation of AES as used by https://aesencryption.net.
 
 Derived from [this Python gist](https://gist.github.com/tryone144/db389557bc2ad45bba3522cd0f01cebb) by [tryone144](https://github.com/tryone144).
