@@ -1,6 +1,9 @@
+
+
 import React, { useState } from 'react';
 import './App.css';
 
+//This is terrible in more one way way.
 const iv = "\x31\x32\x33\x34\x35\x36\x37\x38\x62\x30\x7a\x32\x33\x34\x35\x6e";
 
 const utf8Encoder = new TextEncoder();
