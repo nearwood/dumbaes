@@ -11,6 +11,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
+code, textarea, input[type="text"] {
   font-family: 'Cascadia Code', source-code-pro, Menlo, Monaco, Consolas, monospace;
 }
