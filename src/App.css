@@ -1,10 +1,4 @@
-
-html, body, #root {
-  height: 100%;
-}
-
 .App {
-  width: 768px;
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
@@ -12,6 +6,7 @@ html, body, #root {
 }
 
 textarea {
+  resize: none;
   flex: 2 1 auto;
 }
 
@@ -19,6 +14,7 @@ textarea {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  margin: 2px 0;
 }
 
 input#key {
@@ -26,6 +22,7 @@ input#key {
 }
 
 button {
+  margin: 0 4px;
   color: #f15926
 }
 
@@ -36,4 +33,6 @@ button {
 footer {
   text-align: right;
   color: #a48463;
+  margin-top: 4px;
+  padding: 4px;
 }
