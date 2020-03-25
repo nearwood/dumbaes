@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/dumbaes/static/css/main.ad3f32ce.chunk.css",
-    "main.js": "/dumbaes/static/js/main.e768b18e.chunk.js",
-    "main.js.map": "/dumbaes/static/js/main.e768b18e.chunk.js.map",
+    "main.css": "/dumbaes/static/css/main.7a6004b1.chunk.css",
+    "main.js": "/dumbaes/static/js/main.2d213857.chunk.js",
+    "main.js.map": "/dumbaes/static/js/main.2d213857.chunk.js.map",
     "runtime-main.js": "/dumbaes/static/js/runtime-main.c6687a68.js",
     "runtime-main.js.map": "/dumbaes/static/js/runtime-main.c6687a68.js.map",
     "static/js/2.0ba3ce44.chunk.js": "/dumbaes/static/js/2.0ba3ce44.chunk.js",
     "static/js/2.0ba3ce44.chunk.js.map": "/dumbaes/static/js/2.0ba3ce44.chunk.js.map",
     "index.html": "/dumbaes/index.html",
-    "precache-manifest.158f7705abfb9cdee43875d47a4928f3.js": "/dumbaes/precache-manifest.158f7705abfb9cdee43875d47a4928f3.js",
+    "precache-manifest.429c475d6822a12a002ed5e47c001a26.js": "/dumbaes/precache-manifest.429c475d6822a12a002ed5e47c001a26.js",
     "service-worker.js": "/dumbaes/service-worker.js",
-    "static/css/main.ad3f32ce.chunk.css.map": "/dumbaes/static/css/main.ad3f32ce.chunk.css.map",
+    "static/css/main.7a6004b1.chunk.css.map": "/dumbaes/static/css/main.7a6004b1.chunk.css.map",
     "static/js/2.0ba3ce44.chunk.js.LICENSE.txt": "/dumbaes/static/js/2.0ba3ce44.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c6687a68.js",
     "static/js/2.0ba3ce44.chunk.js",
-    "static/css/main.ad3f32ce.chunk.css",
-    "static/js/main.e768b18e.chunk.js"
+    "static/css/main.7a6004b1.chunk.css",
+    "static/js/main.2d213857.chunk.js"
   ]
 }
