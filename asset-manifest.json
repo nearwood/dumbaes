@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/dumbaes/static/css/main.b273af0e.chunk.css",
-    "main.js": "/dumbaes/static/js/main.d8afd56d.chunk.js",
-    "main.js.map": "/dumbaes/static/js/main.d8afd56d.chunk.js.map",
-    "runtime-main.js": "/dumbaes/static/js/runtime-main.c6687a68.js",
-    "runtime-main.js.map": "/dumbaes/static/js/runtime-main.c6687a68.js.map",
-    "static/js/2.0ba3ce44.chunk.js": "/dumbaes/static/js/2.0ba3ce44.chunk.js",
-    "static/js/2.0ba3ce44.chunk.js.map": "/dumbaes/static/js/2.0ba3ce44.chunk.js.map",
+    "main.js": "/dumbaes/static/js/main.aa82a8dc.chunk.js",
+    "main.js.map": "/dumbaes/static/js/main.aa82a8dc.chunk.js.map",
+    "runtime-main.js": "/dumbaes/static/js/runtime-main.98d64964.js",
+    "runtime-main.js.map": "/dumbaes/static/js/runtime-main.98d64964.js.map",
+    "static/js/2.90c976cf.chunk.js": "/dumbaes/static/js/2.90c976cf.chunk.js",
+    "static/js/2.90c976cf.chunk.js.map": "/dumbaes/static/js/2.90c976cf.chunk.js.map",
     "index.html": "/dumbaes/index.html",
-    "precache-manifest.a241b82356f987d6613512e3f9e075d1.js": "/dumbaes/precache-manifest.a241b82356f987d6613512e3f9e075d1.js",
+    "precache-manifest.bbe2144ab59c2105d160389fa1601807.js": "/dumbaes/precache-manifest.bbe2144ab59c2105d160389fa1601807.js",
     "service-worker.js": "/dumbaes/service-worker.js",
     "static/css/main.b273af0e.chunk.css.map": "/dumbaes/static/css/main.b273af0e.chunk.css.map",
-    "static/js/2.0ba3ce44.chunk.js.LICENSE.txt": "/dumbaes/static/js/2.0ba3ce44.chunk.js.LICENSE.txt"
+    "static/js/2.90c976cf.chunk.js.LICENSE.txt": "/dumbaes/static/js/2.90c976cf.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c6687a68.js",
-    "static/js/2.0ba3ce44.chunk.js",
+    "static/js/runtime-main.98d64964.js",
+    "static/js/2.90c976cf.chunk.js",
     "static/css/main.b273af0e.chunk.css",
-    "static/js/main.d8afd56d.chunk.js"
+    "static/js/main.aa82a8dc.chunk.js"
   ]
 }
